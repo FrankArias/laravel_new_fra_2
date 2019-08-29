@@ -45,7 +45,9 @@ class BookController extends Controller
         Book::create($request->all());
        
         Session::flash('message','Libro creado correctamente');
+
         return redirect()->route('books.index');
+
 
     }
 
@@ -68,7 +70,8 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return view('books.edit',compact('book'));
+
     }
 
     /**
@@ -80,7 +83,15 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'descripcion' => 'required',
+        ]);
+
+         $book->update($request->all());
+        Session::flash('message','Libro actualizado correctamente');
+        return redirect()->route('books.index');
+
     }
 
     /**
