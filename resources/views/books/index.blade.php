@@ -28,10 +28,24 @@
   	@foreach($books as $book)
     <tr>
       <th scope="row">{{ $book->id}}</th>
-      <td>{{ $book->title}}</td>
+      <td><a href="{{ route('books.show',$book->id ) }}">{{ $book->title}}</a></td>
       <td>{{ $book->descripcion}}</td>
-      <td><a class="btn btn-info" href="{{ route('books.edit', $book->id) }}">Editar</a>
-    </tr>
+      <td><a class="btn btn-info" href="{{ route('books.edit', $book->id) }}"><i class="far fa-edit"></i></a>
+        
+        <form action="{{ route('books.destroy',$book->id) }}" method="POST">
+          @csrf
+          @method('DELETE')
+
+          <button type="submit" class="btn-sm btn-danger mt-3" onclick="return confirm('Quiere borrar el registro?')" ><i class="far fa-trash-alt"></i></button>
+
+
+        </form>
+
+      </td>
+      </td>
+        
+   
+      </tr>
 
   @endforeach
    

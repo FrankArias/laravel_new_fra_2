@@ -20,6 +20,9 @@
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <link href="/css/custom.css" rel="stylesheet">
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/c1ab9ef22f.js"></script>
+  
 </head>
 
 <body id="app">
