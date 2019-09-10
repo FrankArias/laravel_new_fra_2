@@ -12,7 +12,7 @@
 */
 
 //Route::get('/', function () {
-  //  return view('welcome');
+//  return view('welcome');
 //});
 
 Auth::routes();
@@ -21,6 +21,6 @@ Route::get('/', 'PagesController@index')->name('index');
 
 Route::get('/pages/about', 'PagesController@about')->name('about');
 
-Route::resource('books','BookController');
+Route::resource('books', 'BookController');
 
-Route::get('8000', 'AdminController@index');
+// Route::get('8000', 'AdminController@index');

@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Book;
 use Illuminate\Http\Request;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+        // $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +22,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::paginate(3);
-        return view('books.index',compact('books'));
+        return view('books.index', compact('books'));
     }
 
     /**
@@ -26,7 +32,7 @@ class BookController extends Controller
      */
     public function create()
     {
-       return view('books.create');
+        return view('books.create');
     }
 
     /**
@@ -41,14 +47,16 @@ class BookController extends Controller
             'title' => 'required',
             'descripcion' => 'required',
         ]);
+        $book = new Book;
+        $book->title = $request->title;
+        $book->descripcion = $request->descripcion;
+        $book->user_id = Auth::user()->id;
+        $book->save();
+        // Book::create($request->all());
 
-        Book::create($request->all());
-       
-        Session::flash('message','Libro creado correctamente');
+        Session::flash('message', 'Libro creado correctamente');
 
         return redirect()->route('books.index');
-
-
     }
 
     /**
@@ -59,7 +67,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return view('books.show',compact('book'));
+        return view('books.show', compact('book'));
     }
 
     /**
@@ -70,8 +78,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('books.edit',compact('book'));
-
+        return view('books.edit', compact('book'));
     }
 
     /**
@@ -88,10 +95,9 @@ class BookController extends Controller
             'descripcion' => 'required',
         ]);
 
-         $book->update($request->all());
-        Session::flash('message','Libro actualizado correctamente');
+        $book->update($request->all());
+        Session::flash('message', 'Libro actualizado correctamente');
         return redirect()->route('books.index');
-
     }
 
     /**
@@ -103,7 +109,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        Session::flash('message','Libro ha sido borrado  correctamente');
+        Session::flash('message', 'Libro ha sido borrado  correctamente');
         return redirect()->route('books.index');
     }
 }
