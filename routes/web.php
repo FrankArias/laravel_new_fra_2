@@ -22,3 +22,5 @@ Route::get('/', 'PagesController@index')->name('index');
 Route::get('/pages/about', 'PagesController@about')->name('about');
 
 Route::resource('books','BookController');
+
+Route::get('8000', 'AdminController@index');
