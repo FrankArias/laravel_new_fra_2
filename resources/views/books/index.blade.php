@@ -26,8 +26,9 @@
         <th scope="col">id</th>
         <th scope="col">Título</th>
         <th scope="col">Reseña</th>
+        @auth
         <th scope="col">Acciones</th>
-
+        @endauth
 
       </tr>
     </thead>
@@ -37,6 +38,7 @@
         <th scope="row">{{ $book->id}}</th>
         <td><a href="{{ route('books.show',$book->id ) }}">{{ $book->title}}</a></td>
         <td>{{ $book->descripcion}}</td>
+        @if (Auth::user()->id == $book->user_id )
         <td><a class="btn btn-info" href="{{ route('books.edit', $book->id) }}"><i class="far fa-edit"></i></a>
 
           <form action="{{ route('books.destroy',$book->id) }}" method="POST">
@@ -50,6 +52,11 @@
           </form>
 
         </td>
+        @else
+        <td>
+          No es tu libro
+        </td>
+        @endif
         </td>
 
 

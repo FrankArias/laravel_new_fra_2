@@ -78,9 +78,18 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('books.edit', compact('book'));
-    }
 
+        return $this->checkUserID($book->user_id) ? redirect('/books') : view('books.edit', compact('book'));
+
+        // return;
+    }
+    public function checkUserID($bookID)
+    {
+        if (Auth::user()->id != $bookID) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -90,6 +99,10 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+        if ($this->checkUserID($book->user_id)) {
+            return redirect('/books');
+        }
+
         $request->validate([
             'title' => 'required',
             'descripcion' => 'required',
